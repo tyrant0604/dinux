@@ -1,3 +1,4 @@
 this is a text!
 add anthor line!
 git commit -m 
+git diff (default): different of local and stage
