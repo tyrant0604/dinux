@@ -1,4 +1,3 @@
-this is a text!
-add anthor line!
-git commit -m 
+git add :add file to stage, any change should be add to stage
 git diff (default): different of local and stage
+
