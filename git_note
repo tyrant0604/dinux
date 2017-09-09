@@ -1,6 +1,70 @@
-git add :add file to stage, any change should be add to stage
-git diff:
-    git diff (default): different of local workspace and stage
-    git diff HEAD : different of local workspace and branch
-    git diff --staged / --cached : different of stage and branch
+1..git目录结构
+    .git/
+        COMMIT_EDITMSG : 最新commit的 -m 参数后的信息
+        FETCH_HEAD : 61a9d62c56867e70379e86873487a2e30114e43anot-for-merg   ebranch 'master' of github.com:tyrant0604/dinux 
+        HEAD : ref: refs/heads/dev
+        ORIG_HEAD : master分支的ID
+        config : 用户配置文件，~/.gitconfig是素有用户的配置文件
+        description
+        hooks
+        index
+        info
+        logs
+        objects
+        refs
+
+2.git常用命令
+    git status
+        查看当前工作区的状态
+    git add <file>
+        将文件加入暂存区
+
+    git commit -m 'message'
+        将暂存区的修改提交到分支，并强制附加本次修改的说明
+
+    git diff:
+        git diff (default)
+            工作区 & 暂存区
+        git diff HEAD
+            工作区 & 当前分支
+        git diff --staged / --cached
+            暂存区 & 当前分支
+
+    git reset HEAD
+        暂存区的目录树会被重写，会被master分支指向的分支指向的目录树所覆盖，d按时工作区的不受影响
+
+    git rm --cached <file>
+        直接从暂存区删除，工作区不受影响
+
+    git checkout . / -- <file>
+        用暂存区的全部/指定文件替换工作区的文件：危险
+
+    git ls-tree -l HEAD
+        展示当前分支的目录树
+    git ls-files -s
+        显示暂存区的目录树，第三个字段是暂存区的编号
+
+    git clean -fd
+        清空工作区中没有加入版本库的文件和目录（非跟踪文件和目录）
+
+    git log -p / --graph / --pretty=rawh / HEAD / <branch> /
+        提交日志
+
+    git cat-file -option ID
+        展示Git对象ID的属性
+        commit对象：
+            tree e286fc991426faf5b85cc116c55128544d811d1b
+            parent 59c672ef2d8508bb8c86e1e589b6e23b2d1ffda1
+            author dx <dingxue0604@pku.edu.cn> 1504947546 +0800
+            committer dx <dingxue0604@pku.edu.cn> 1504947546 +0800
+
+            change texts filename
+        tree对象保存目录结构
+            100644 blob 8b35d0b72c3fa2971d241bb6baa3ce8d8ec5d95e    git_note
+            100644 blob f65e3cabbfda63086716edfd1513f538c1cd2043test.py
+            100644 blob 8b35d0b72c3fa2971d241bb6baa3ce8d8e  c5d95etext  
+        blob对象保存着文件的内容，保存在.git/objects/目录下，以ID的前两位作为目录名，后38位作为文件名
+
+    git stash
+        保存当前工作进度？
 
