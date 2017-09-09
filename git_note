@@ -1,3 +1,6 @@
 git add :add file to stage, any change should be add to stage
-git diff (default): different of local workspace and stage
+git diff:
+    git diff (default): different of local workspace and stage
+    git diff HEAD : different of local workspace and branch
+    git diff --staged / --cached : different of stage and branch
 
