@@ -9,11 +9,19 @@
         hooks
         index
         info
-        logs
+        logs : 记录了分支的变更，可以在错误的reset时，通过refs重新恢复错误的重置
         objects
-        refs
+        refs/
+            heads/ : 该目录下的引用称为分支，git rev-parse <branch> : 显示引用对应提交的ID
+            remotes/
+            tags/
 
-2.git常用命令
+2.HEAD多个父提交的表示
+    HEAD^ : HEAD的父提交
+    HEAD^^ : HEAD^的父提交
+    HEAD~3 : HEAD的第三个父提交
+
+3.git常用命令
     git status
         查看当前工作区的状态
     git add <file>
@@ -30,8 +38,13 @@
         git diff --staged / --cached
             暂存区 & 当前分支
 
-    git reset HEAD
+    git reset --hard HEAD
+        --hard 会破坏工作区未提交的改动，慎用
         暂存区的目录树会被重写，会被master分支指向的分支指向的目录树所覆盖，d按时工作区的不受影响
+    
+    git reflog show <branch>
+        展示分支的所有的操作历史及其ID，可以通过该ID重新恢复reset的过程
+        如reset --hard HEAD^^^ 会将commit重置到第三个父提交，同时git log只会显示第三个父提交之前的提交信息，因此git reflog提供了重新恢复的方法
 
     git rm --cached <file>
         直接从暂存区删除，工作区不受影响
@@ -47,10 +60,13 @@
     git clean -fd
         清空工作区中没有加入版本库的文件和目录（非跟踪文件和目录）
 
-    git log -p / --graph / --pretty=rawh / HEAD / <branch> /
+    git log -n / --oneline / -p / --graph / --pretty=raw,one / HEAD / <branch> /
         提交日志
 
     git cat-file -option ID
+        例: git cat-file commit HEAD
+            git cat-file tree HEAD^{tree}
+            git cat-file blob HEAD:filename
         展示Git对象ID的属性
         commit对象：
             tree e286fc991426faf5b85cc116c55128544d811d1b
