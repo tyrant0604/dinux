@@ -64,7 +64,9 @@
 
     git checkout 
         本质是修改HEAD本身的指向
+        git checkout = git checkout HEAD汇总显示工作区、暂存区和HEAD的差异
         git checkout . / -- <file> : 用暂存区的全部/指定文件替换工作区的文件：危险
+        git checkout <branch> -- filename 用制定<branch>的文件替换工作区和暂存区的文件
         git checkout HEAD^ 和 git reset HEAD^ 的区别：
             checkout 仅仅改变HEAD的指向，分支（master/dev...）的指向并未改变，默认情况下HEAD指向分支（master/dev...）；
                 git checkout HEAD^ : 此时处于[ditached HEAD-分离头指针]，HEAD并未指向任何分支，在此时对工作区进行的修改都处于一个新建的临时分支下，再执行git checkout <branch>将临时分支的提交合并到分支上；
