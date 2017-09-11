@@ -24,8 +24,25 @@
 3.git常用命令
     git status
         查看当前工作区的状态
+        -u 将工作区所有修改进行提交
+
+    git ls-files --with-tree=HEAD^
+        列出对应提交的文件内容
+
     git add <file>
         将文件加入暂存区
+
+    git rm filename
+        从暂存区删除文件
+
+    git mv
+        改名
+
+    git add .gitignore
+        该忽略是共享式的，即添加到版本库后，其他clone版本库的人都会起作用
+        git commit -m 'ignore files'
+        创建.gitignore 并添加要忽略的文件名，提交到版本库，忽略只对未跟踪的文件起作用，对于已经加入版本库的文件不起作用
+        .git/info/exclude 只对本地有效的独享式忽略，git config --global core.excludesfile /path/to/file
 
     git commit -m 'message'
         将暂存区的修改提交到分支，并强制附加本次修改的说明
@@ -52,6 +69,7 @@
             --soft 值执行上述a.步骤，只改变引用的指向，不改变工作区和暂存区
                 git reset --soft HEAD^ : 如果对之前提交的说明或提交的内容不满意时，将提交撤销可以重新提交
                 git commit --amend = 1)git reset --soft HEAD^ ; 2)git commit -e -F .git/COMMIT_EDITMSG
+                git commit --amend -m '重新提交并添加说明'
             --mixed 
                 git reset --mixed HEAD^ = git reset HEAD^
     
@@ -70,11 +88,12 @@
         git checkout HEAD^ 和 git reset HEAD^ 的区别：
             checkout 仅仅改变HEAD的指向，分支（master/dev...）的指向并未改变，默认情况下HEAD指向分支（master/dev...）；
                 git checkout HEAD^ : 此时处于[ditached HEAD-分离头指针]，HEAD并未指向任何分支，在此时对工作区进行的修改都处于一个新建的临时分支下，再执行git checkout <branch>将临时分支的提交合并到分支上；
-                如果在临时分支下有多次提交，中间的提交可能会丢失；使用git merge 将之前临时分支中的提交合并到分支上
+                如果在临时分支下有多次提交，中间的提交可能会丢失；使用git merge ID 将之前临时分支中的提交合并到分支上
             reset 改变的是分支的指向，HEAD始终指向分支，reset并没有对HEAD作出任何改变
 
     git ls-tree -l HEAD
         展示当前分支的目录树
+
     git ls-files -s
         显示暂存区的目录树，第三个字段是暂存区的编号
 
@@ -103,5 +122,44 @@
         blob对象保存着文件的内容，保存在.git/objects/目录下，以ID的前两位作为目录名，后38位作为文件名
 
     git stash
-        保存当前工作进度？
+        git stash 分别对工作区和暂存区的状态j进行保存
+        git stash list 列出多个保存的工作状态
+        git stash pop [--index] [<stash>] 没有参数时，恢复最新的工作进度，并从g工作进度列表中删除
+            --index 除了恢复工作区的文件，还恢复暂存区的文件，
+        git stash [save [-p|--patch] [-k|--[no-]keep-index] [-q|--quiet] [-u|--include-untracked] [-a|--all] [<message>]]
+            git stash save "message..."
+            --p|--patch 会显示工作区与HEAD的差异，通过对差异文件的编辑决定要最终要保存的工作区的文件
+            -k|--keep-index 保存进度时不会讲暂存区重置，默认暂存区和工作区重置
+        git stash drop [<stash>] 删除一个存储的进度，默认删除最近一个进度
+        git stash clear 删除所有的进度
+        git stash branch <branchname> [<stash>] 基于进度创建分支
 
+    git archive
+        将版本库中的提交归档
+        git archive -o file.zip HEAD 将最新提交的目录树归档
+        git archive -o file.tar HEAD subdir dir ... 将部分目录归档
+
+    git blame
+        逐行显示文件的提交
+        git blame -L n,m filename 只显示从第n行开始的m行
+
+    git tag <tagname> <commit>
+        为某次提交打标签
+
+    git rebase
+        对提交执行变基操作，可以实现将指定范围的提交嫁接到另外一个提交上
+        git rebase --noto <newbase> <since> <till>
+            a.先执行git checkout <till>切换到<till>，如果<till>不是一个分支，则变基操作是在distach HEAD状态下进行
+            b.将<since>...<till>的提交范围写入临时文件，包括<till>之前的所有提交，但是不包括<since>和<since>的历史提交
+            c.将当前分支强制重置（git reset --hear <newbase>）到<newbase>上
+            d.从保存在临时文件中的提交列表中，将逐一按顺序重新提交到重置之后的分支上
+            e.如果遇到提交已经在分支中，则跳过该提交
+            f.如果在变基过程中遇到冲突，暂停下来等待解决冲突，解决冲突后执行--continue继续变基，--skip则跳过当前遇到的提交，--abort终止提交回到变基前的分支上
+            例：顺序的提交A,B,C,D,E,F,要跳过D将EF嫁接到C上，可执行如下操作git rebase --onto C E^ F
+            如要剔除提交列表中的某个提交可以执行 git rebase --onto X^ X
+        git rebase --continue | --skip | --abort | --edit-todo
+            变基运行过程中被中断时采用的命令
+            --continue 先解决冲突，添加到暂存区，不提交，然后在恢复变基操作时使用该命令
+            --skip 遇到冲突，跳过当前提交时使用
+            --abort 遇到冲突，终止变基操作，回到之前的提交
+        
