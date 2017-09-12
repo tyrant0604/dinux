@@ -162,4 +162,9 @@
             --continue 先解决冲突，添加到暂存区，不提交，然后在恢复变基操作时使用该命令
             --skip 遇到冲突，跳过当前提交时使用
             --abort 遇到冲突，终止变基操作，回到之前的提交
-        
+    
+    git clone
+        git clone <repository> <directory> 将<repository>指向的版本库创建一个克隆到<directory>目录，包含工作区
+        git clone --bare  <repository> <directory.git> 裸版本库，一般以.git后缀，不包含工作区
+        git clone --mirror <repository> <directory.git> 裸版本库对上游版本库进行了注册，以便在.git版本库中使用git fetch 中持续同步
+
