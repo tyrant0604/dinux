@@ -1,7 +1,10 @@
-1..git目录结构
-    .git/
-        COMMIT_EDITMSG : 最新commit的 -m 参数后的信息
-        FETCH_HEAD : 61a9d62c56867e70379e86873487a2e30114e43anot-for-merg   ebranch 'master' of github.com:tyrant0604/dinux 
+Git学习笔记
+==========
+
+#.git目录结构
+	.git/
+		COMMIT_EDITMSG : 最新commit的 -m 参数后的信息
+		FETCH_HEAD : 61a9d62c56867e70379e86873487a2e30114e43anot-for-merg   ebranch 'master' of github.com:tyrant0604/dinux 
         HEAD : ref: refs/heads/dev
         ORIG_HEAD : master分支的ID
         config : 用户配置文件，~/.gitconfig是素有用户的配置文件
@@ -16,12 +19,12 @@
             remotes/
             tags/
 
-2.HEAD多个父提交的表示
+#HEAD多个父提交的表示
     HEAD^ : HEAD的父提交
     HEAD^^ : HEAD^的父提交
     HEAD~3 : HEAD的第三个父提交
 
-3.git常用命令
+#git常用命令
     git status
         查看当前工作区的状态
         -u 将工作区所有修改进行提交
@@ -167,4 +170,14 @@
         git clone <repository> <directory> 将<repository>指向的版本库创建一个克隆到<directory>目录，包含工作区
         git clone --bare  <repository> <directory.git> 裸版本库，一般以.git后缀，不包含工作区
         git clone --mirror <repository> <directory.git> 裸版本库对上游版本库进行了注册，以便在.git版本库中使用git fetch 中持续同步
+
+#Git协议和工作协同
+    Git协议
+        SSH协议：ssh://[user@]example.com[:port]/path/to/repo | [user@]example.com:path/to/repo
+        GIT协议：git://example.com[:port]/path/to/repo.git
+        HTTP[S]协议：http[s]://example.com[:port]/path/to/repo.git
+        FTP[s]协议：ftp[s]://example.com[:port]/path/to/repo.git
+        RSYNC协议：rsync://example.com[:port]/path/to/repo.git
+        本地协议：file://path/to/repo.git | /path/to/repo.git
+
 
