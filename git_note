@@ -189,4 +189,30 @@ Git学习笔记
         git branch -m <oldbranch> <newbranch> 分支重命名，如果<newbranch>已经存在，不能更名
         git branch -M <oldbranch> <newbranch> 强制重命名分支
         git checkout -b <newbranch> [<start-point>] 创建并切换到新分支，等价于git branch <newbranch> + git checkout <newbranch>
+    
+    git 远程分支
+        [remote "origin"]
+            url = git@github.com:tyrant0604/dinux.git
+            fetch = +refs/heads/*:refs/remotes/origin/*
+        该配置以origin为名注册了一个远程版本库
+        url : git clone url 时所用的地址
+        fetch : (+)开头是强制进行引用的替换，即使即将进行的替换是非快快进式的
+            (:)前时使用了通配符，指的是远程版本库的所有分支
+    git 分支追踪
+        为了能够在远程分支上进行工作，需要基于远程分支创建本地分支
+        git checkout -b dev origin/dev 显式的从远程分支创建本地分支
+        和远程分支建立跟踪后，本地分支具有如下特性：
+            a.检查工作区状态时，会显示本地分支和被跟踪远程分支提交之间的关系
+            b.当执行git pull 时，会和被跟踪的远程分支进行合并或者变基，如果两者出现版本偏离
+            c.当执行git push 时，会推送到远程版本库的相应分支中，
+
+
+
+
+
+
+
+
+
+
 
