@@ -182,6 +182,7 @@ Git学习笔记
 
     git branch
         git branch 显示本地分支列表
+        git branch -vv 显示本地分支和远程分支的关联关系
         git branch <branchname> 基于当前HEAD创建分支
         git branch <branchname> <start-point> 基于<start-point>创建分支
         git brnach -d <branchname> 删除分支，如果该分支尚未合并到其他分支，不能删除
